@@ -1,0 +1,21 @@
+  // Xác định phần tử mục tiêu (ví dụ: <img>) bằng cách sử dụng CSS selector hoặc XPath
+            WebElement imageElement = driver.findElement(By.xpath("//*[@id=\"resultImage\"]"));
+            // Lấy URL của ảnh từ phần tử
+            String imageUrl = imageElement.getAttribute("src");
+            try {
+                // Tải ảnh từ URL và lưu nó xuống máy tính
+                URL url = new URL(imageUrl);
+                BufferedInputStream in = new BufferedInputStream(url.openStream());
+                FileOutputStream fileOutputStream = new FileOutputStream("E:\\Downloads\\kol123.png");
+
+                byte[] dataBuffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                    fileOutputStream.write(dataBuffer, 0, bytesRead);
+                }
+                in.close();
+                fileOutputStream.close();
+                System.out.println("Ảnh đã được tải xuống thành công!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
