@@ -84,7 +84,7 @@ public class Class01 {
 
 
 
-    @GetMapping("/ttsfree_captcha")
+     @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
         for (int j = 1; j <= 100; j++) {
             System.out.println("NUMBER :  " + j);
@@ -112,7 +112,6 @@ public class Class01 {
             options.addArguments("disable-infobars");
             options.addArguments("--start-maximized");
             options.addArguments("--disable-extensions");
-
 
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
@@ -143,7 +142,8 @@ public class Class01 {
 
             waitForElementDisplay("/html/body/footer/div/div[1]/div[1]/a");
 
-            if (driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/div")).isDisplayed()) {
+            List<WebElement> captchaImages = driver.findElements(By.id("captcha_image"));
+            if (captchaImages.size() > 0 && captchaImages.get(0).isDisplayed()) {
                 while (true) {
                     System.out.println("Captcha displayed");
 
@@ -214,6 +214,8 @@ public class Class01 {
                     // nếu nút download không hiển thị thì tiếp tục công việc với captcha đến khi được thì thôi
                     driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/div/a[1]/i")).click();
                 }
+            } else {
+                System.out.println("Captcha image is not displayed");
             }
             waitForElementUnstable(5, 30, "//*[@id=\"progessResults\"]/div[2]/center[1]/div/a");
             getLastModified("E:\\Downloads\\");
@@ -221,6 +223,7 @@ public class Class01 {
         }
         return ResponseEntity.ok(new String("END GAME"));
     }
+
 
 
     public void waitForElementToSendKeys(int seconds, String waitConditionLocator, String text) {
