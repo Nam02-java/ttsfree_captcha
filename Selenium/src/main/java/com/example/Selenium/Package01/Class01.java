@@ -84,7 +84,7 @@ public class Class01 {
 
 
 
-     @GetMapping("/ttsfree_captcha")
+      @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
         for (int j = 1; j <= 100; j++) {
             System.out.println("NUMBER :  " + j);
