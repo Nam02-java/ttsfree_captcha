@@ -84,8 +84,9 @@ public class Class01 {
 
 
 
-      @GetMapping("/ttsfree_captcha")
+     @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
+        flag = false;
         for (int j = 1; j <= 100; j++) {
             System.out.println("NUMBER :  " + j);
             String text = params.get("Text");
@@ -116,14 +117,40 @@ public class Class01 {
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
 
+
+            ///////////////////////////////////////////////////////////////////////////
+
+//            WebElement frame1 = driver.findElement(By.xpath("/html/body"));
+//            driver.switchTo().frame(frame1);
+//            List<WebElement> xxx = driver.findElements(By.id("dismiss-button"));
+//            if (xxx.size() > 0) {
+//                driver.findElement(By.id("dismiss-button")).click();
+//            }else{
+//                WebElement frame2 = driver.findElement(By.id("aswift_8")); // bug
+//                driver.switchTo().frame(frame2);
+//                driver.findElement(By.id("dismiss-button")).click();
+//            }
+//            driver.switchTo().defaultContent();
+
+            ///////////////////////////////////////////////////////////////////////////
+
+            if (flag == false) {
+                driver.findElement(By.xpath("/html/body/ins[2]/div[2]")).click();
+                driver.findElement(By.id("close-fixedban")).click();
+            }
+
+            checkElenmentESC();
+
             js = (JavascriptExecutor) driver;
             Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
 
+            checkElenmentESC();
 
             driver.findElement(By.xpath("//*[@id=\"input_text\"]")).clear();
-
             driver.findElement(By.xpath("//*[@id=\"input_text\"]")).sendKeys(text);
+
+            checkElenmentESC();
 
             if (driver.findElement(By.xpath("//*[@id=\"select2-select_lang_bin-container\"]")).getText().equals(xpath_vietnameseToText)) {
             } else {
@@ -132,18 +159,23 @@ public class Class01 {
                 driver.findElement(By.xpath("/html/body/span/span/span[1]/input")).sendKeys(Keys.ENTER);
             }
 
+            checkElenmentESC();
+
             if (j % 2 == 0) {
                 waitForElementToClick(10, male_voice);
             } else {
                 waitForElementToClick(10, female_voice);
             }
+            checkElenmentESC();
 
             driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
 
             waitForElementDisplay("/html/body/footer/div/div[1]/div[1]/a");
 
-            List<WebElement> captchaImages = driver.findElements(By.id("captcha_image"));
-            if (captchaImages.size() > 0 && captchaImages.get(0).isDisplayed()) {
+            checkElenmentESC();
+
+            element_solve = driver.findElements(By.id("captcha_image"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
                 while (true) {
                     System.out.println("Captcha displayed");
 
@@ -217,6 +249,7 @@ public class Class01 {
             } else {
                 System.out.println("Captcha image is not displayed");
             }
+
             waitForElementUnstable(5, 30, "//*[@id=\"progessResults\"]/div[2]/center[1]/div/a");
             getLastModified("E:\\Downloads\\");
             Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
@@ -224,6 +257,13 @@ public class Class01 {
         return ResponseEntity.ok(new String("END GAME"));
     }
 
+    public void checkElenmentESC() throws InterruptedException {
+        element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
+        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+            driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
+        }
+        Thread.sleep(1000);
+    }
 
 
     public void waitForElementToSendKeys(int seconds, String waitConditionLocator, String text) {
@@ -233,19 +273,31 @@ public class Class01 {
 
     public void waitForElementUnstable(int timeOut, int pollingEvery, String xpath) throws InterruptedException, IOException {
 
+        Thread.sleep(3000);
 
-        Thread.sleep(1000);
+        checkElenmentESC();
 
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
+
+        if (flag == false) {
+            Thread.sleep(1500);
+            System.out.println("AD displays");
+            WebElement www = driver.findElement(By.id("aswift_8"));
+            driver.switchTo().frame(www);
+            List<WebElement> xxx = driver.findElements(By.id("dismiss-button"));
+            if (xxx.size() > 0) {
+                driver.findElement(By.id("dismiss-button")).click();
+            }
+            driver.switchTo().defaultContent();
+            flag = true;// return default content
+        }
     }
 
     public void waitForElementDisplay(String element_location) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(element_location)));
-
-        Thread.sleep(3000);
-
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(element_location)));
+        Thread.sleep(2000);
         js = (JavascriptExecutor) driver;
         Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
         js.executeScript("arguments[0].scrollIntoView();", Element);
