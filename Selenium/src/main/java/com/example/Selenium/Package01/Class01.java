@@ -117,23 +117,6 @@ public class Class01 {
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
 
-
-            ///////////////////////////////////////////////////////////////////////////
-
-//            WebElement frame1 = driver.findElement(By.xpath("/html/body"));
-//            driver.switchTo().frame(frame1);
-//            List<WebElement> xxx = driver.findElements(By.id("dismiss-button"));
-//            if (xxx.size() > 0) {
-//                driver.findElement(By.id("dismiss-button")).click();
-//            }else{
-//                WebElement frame2 = driver.findElement(By.id("aswift_8")); // bug
-//                driver.switchTo().frame(frame2);
-//                driver.findElement(By.id("dismiss-button")).click();
-//            }
-//            driver.switchTo().defaultContent();
-
-            ///////////////////////////////////////////////////////////////////////////
-
             if (flag == false) {
                 driver.findElement(By.xpath("/html/body/ins[2]/div[2]")).click();
                 driver.findElement(By.id("close-fixedban")).click();
