@@ -263,17 +263,17 @@ public class Class01 {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
 
-        if (flag == false) {
+         if (flag == false) {
             Thread.sleep(1500);
             System.out.println("AD displays");
-            WebElement www = driver.findElement(By.id("aswift_8"));
-            driver.switchTo().frame(www);
-            List<WebElement> xxx = driver.findElements(By.id("dismiss-button"));
-            if (xxx.size() > 0) {
+            WebElement webElement = driver.findElement(By.id("aswift_8"));
+            driver.switchTo().frame(webElement);
+            List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+            if (list.size() > 0) {
                 driver.findElement(By.id("dismiss-button")).click();
             }
-            driver.switchTo().defaultContent();
-            flag = true;// return default content
+            driver.switchTo().defaultContent(); // return default content
+            flag = true;
         }
     }
 
