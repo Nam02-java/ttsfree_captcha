@@ -117,6 +117,9 @@ public class Class01 {
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
 
+
+           
+
             if (flag == false) {
                 driver.findElement(By.xpath("/html/body/ins[2]/div[2]")).click();
                 driver.findElement(By.id("close-fixedban")).click();
@@ -263,11 +266,11 @@ public class Class01 {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
 
-         if (flag == false) {
+        if (flag == false) {
             Thread.sleep(1500);
             System.out.println("AD displays");
-            WebElement webElement = driver.findElement(By.id("aswift_8"));
-            driver.switchTo().frame(webElement);
+            WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+            driver.switchTo().frame(frame1);
             List<WebElement> list = driver.findElements(By.id("dismiss-button"));
             if (list.size() > 0) {
                 driver.findElement(By.id("dismiss-button")).click();
