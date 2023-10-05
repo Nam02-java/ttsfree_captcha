@@ -86,8 +86,46 @@ public class Class01 {
 
      @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
-        flag = false;
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("debuggerAddress", "localhost:9222");
+        options.addArguments("disable-infobars");
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-extensions");
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+
+        driver.get(URL_WEBSITE);
+
+        element_solve = driver.findElements(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]"));
+        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+            System.out.println("login displayed");
+            driver.findElement(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]")).click();
+            Thread.sleep(1000);
+            element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("AD displays");
+                WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+                driver.switchTo().frame(frame1);
+                List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+                if (list.size() > 0) {
+                    driver.findElement(By.id("dismiss-button")).click();
+                }
+                driver.switchTo().defaultContent(); // return default content
+            }
+            checkElenmentESC();
+            driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
+            driver.findElement(By.xpath("//input[@name='txt_password']")).sendKeys(user_password);
+            driver.findElement(By.xpath("//ins[@class='iCheck-helper']")).click();
+            driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
+        }
+
+
         for (int j = 1; j <= 100; j++) {
+            System.out.println("---------------------------------------------------------------------------------------");
             System.out.println("NUMBER :  " + j);
             String text = params.get("Text");
             String voice = params.get("Voice");
@@ -105,31 +143,26 @@ public class Class01 {
                 }
             }
 
-            System.setProperty("webdriver.http.factory", "jdk-http-client");
-            System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
-
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("debuggerAddress", "localhost:9222");
-            options.addArguments("disable-infobars");
-            options.addArguments("--start-maximized");
-            options.addArguments("--disable-extensions");
-
-            driver = new ChromeDriver(options);
-            driver.manage().window().maximize();
-
-
-           
-
-            if (flag == false) {
-                driver.findElement(By.xpath("/html/body/ins[2]/div[2]")).click();
-                driver.findElement(By.id("close-fixedban")).click();
-            }
-
+            Thread.sleep(2000);
             checkElenmentESC();
 
             js = (JavascriptExecutor) driver;
             Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
+
+            Thread.sleep(2000);
+
+            element_solve = driver.findElements(By.xpath("//ins[@data-anchor-status='displayed']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("ad 1 displayed");
+                driver.findElement(By.xpath("(//div[@class='grippy-host'])[1]")).click();
+            }
+
+            element_solve = driver.findElements(By.xpath("(//img[@title='Ad.Plus Advertising'])[1]"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("ad 2 displayed");
+                driver.findElement(By.xpath("(//img[@title='Ad.Plus Advertising'])[1]")).click();
+            }
 
             checkElenmentESC();
 
@@ -156,7 +189,10 @@ public class Class01 {
 
             driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
 
-            waitForElementDisplay("/html/body/footer/div/div[1]/div[1]/a");
+            Thread.sleep(2000);
+            js = (JavascriptExecutor) driver;
+            Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+            js.executeScript("arguments[0].scrollIntoView();", Element);
 
             checkElenmentESC();
 
@@ -244,13 +280,12 @@ public class Class01 {
     }
 
     public void checkElenmentESC() throws InterruptedException {
+        Thread.sleep(1000);
         element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
         if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
             driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
         }
-        Thread.sleep(1000);
     }
-
 
     public void waitForElementToSendKeys(int seconds, String waitConditionLocator, String text) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
@@ -266,8 +301,9 @@ public class Class01 {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
 
-        if (flag == false) {
-            Thread.sleep(1500);
+        Thread.sleep(1500);
+        element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
             System.out.println("AD displays");
             WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             driver.switchTo().frame(frame1);
@@ -276,24 +312,12 @@ public class Class01 {
                 driver.findElement(By.id("dismiss-button")).click();
             }
             driver.switchTo().defaultContent(); // return default content
-            flag = true;
         }
     }
 
-    public void waitForElementDisplay(String element_location) throws InterruptedException {
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(element_location)));
-        Thread.sleep(2000);
-        js = (JavascriptExecutor) driver;
-        Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
-        js.executeScript("arguments[0].scrollIntoView();", Element);
-    }
-
     public void waitForElementToClick(int seconds, String waitConditionLocator) {
-        check = false;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(waitConditionLocator))).click();
-        check = true;
     }
 
     public static File getLastModified(String directoryFilePath) throws InterruptedException {
@@ -317,11 +341,3 @@ public class Class01 {
     }
 }
 
-
-//https://www.imagetotext.info/
-//Element position: (713, 1095)
-//Element size: (160, 45)
-/**
- * BufferedImage capture = fullScreen.getSubimage(892, 615, 190, 55);
- * bba6a309545447103aa496d679a9f5a0
- */
