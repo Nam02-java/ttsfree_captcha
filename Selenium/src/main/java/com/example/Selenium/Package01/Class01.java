@@ -342,16 +342,3 @@ public class Class01 {
         return chosenFile;
     }
 }
-
-class test {
-    public static void main(String[] args) throws AWTException, InterruptedException {
-        while (true) {
-            Thread.sleep(2000);
-            Point mousePosition = MouseInfo.getPointerInfo().getLocation();
-            int x = (int) mousePosition.getX();
-            int y = (int) mousePosition.getY();
-            System.out.println("Current mouse position: (" + x + ", " + y + ")");
-        }
-    }
-}
-
