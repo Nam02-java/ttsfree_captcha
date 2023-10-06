@@ -171,7 +171,6 @@ public class Class01 {
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
                 System.out.println("new ad displays after choose sex");
                 driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
-
             }
 
             if (j % 2 == 0) {
@@ -272,7 +271,6 @@ public class Class01 {
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
                 System.out.println("new ad displays after captcha image is not displaed");
                 driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
-
             }
 
             waitForElementUnstable(5, 30, "//*[@id=\"progessResults\"]/div[2]/center[1]/div/a");
