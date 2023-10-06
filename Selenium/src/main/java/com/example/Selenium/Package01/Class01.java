@@ -165,7 +165,7 @@ public class Class01 {
 
             checkElenmentESC();
 
-            // new ad displays 2
+            // new ad displays 1
             Thread.sleep(1000);
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
@@ -266,7 +266,7 @@ public class Class01 {
                 System.out.println("Captcha image is not displayed");
             }
 
-            // new ad displays 3
+            // new ad displays 2
             Thread.sleep(1000);
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
