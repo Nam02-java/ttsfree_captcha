@@ -1,58 +1,38 @@
 package com.example.Selenium.Package01;
 
-import com.github.dockerjava.transport.DockerHttpClient;
-import com.google.common.net.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import org.apache.catalina.connector.Request;
-import org.apache.catalina.connector.Response;
-import org.apache.http.HttpEntity;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.apache.commons.io.FileUtils;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.http.HttpResponse;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.Dimension;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
+import java.awt.Point;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.Security;
 import java.time.Duration;
 import java.util.*;
-import java.awt.Rectangle;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/web")
 public class Class01 {
 
-
-    private static String URL_WEBSITE = "https://ttsfree.com/#google_vignette";
+    private static String URL_WEBSITE = "https://ttsfree.com/vn";
     private static String male_voice = "//*[@id=\"voice_name_bin\"]/div[2]/label";
     private static String female_voice = "//*[@id=\"voice_name_bin\"]/div[1]/label";
     private static File chosenFile = null;
@@ -63,42 +43,48 @@ public class Class01 {
 
     private static String xpath_vietnameseToText = "138. Vietnamese (Vietnam) - VN";
 
-
-    private static Boolean check;
-
-    private static int j;
-
     private static JavascriptExecutor js;
 
     private static WebElement Element;
 
     private static String windowHandle;
 
-    private static Boolean flag;
+    private static List<WebElement> element_solve;
+
+    protected static String user_name = "test02";
+    protected static String user_password = "PASSword123";
 
     /**
      * cd C:\Program Files\Google\Chrome\Application
      * chrome.exe --remote-debugging-port=9222 --user-data-dir="F:\CongViecHocTap\ChromeData"
      * chrome://settings/content/popups
      */
-
-
-
-     @GetMapping("/ttsfree_captcha")
+    @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
 
+//        System.setProperty("java.awt.headless", "false"); // false = active robot class
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("disable-infobars");
+//        options.addArguments("--start-maximized");
+//        options.addArguments("--disable-extensions");
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("debuggerAddress", "localhost:9222");
-        options.addArguments("disable-infobars");
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-extensions");
+        options.setExperimentalOption("useAutomationExtension", false); // disable chrome running as automation
+        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation")); // disable chrome running as automation
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
         driver.get(URL_WEBSITE);
+
+//        Robot robot = new Robot();
+//        int x = 1512; // tọa độ x của vị trí cần click
+//        int y = 100; // tọa độ y của vị trí cần click
+//        robot.mouseMove(x, y); // di chuyển con trỏ chuột đến vị trí cần click
+//        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK); // nhấn nút trái chuột
+//        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK); // thả nút trái chuột
+//        Current mouse position: (1512, 98)
 
         element_solve = driver.findElements(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]"));
         if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
@@ -122,7 +108,6 @@ public class Class01 {
             driver.findElement(By.xpath("//ins[@class='iCheck-helper']")).click();
             driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
         }
-
 
         for (int j = 1; j <= 100; j++) {
             System.out.println("---------------------------------------------------------------------------------------");
@@ -179,6 +164,15 @@ public class Class01 {
             }
 
             checkElenmentESC();
+
+            // new ad displays 2
+            Thread.sleep(1000);
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("new ad displays after choose sex");
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+
+            }
 
             if (j % 2 == 0) {
                 waitForElementToClick(10, male_voice);
@@ -272,10 +266,20 @@ public class Class01 {
                 System.out.println("Captcha image is not displayed");
             }
 
+            // new ad displays 3
+            Thread.sleep(1000);
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("new ad displays after captcha image is not displaed");
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+
+            }
+
             waitForElementUnstable(5, 30, "//*[@id=\"progessResults\"]/div[2]/center[1]/div/a");
             getLastModified("E:\\Downloads\\");
             Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
         }
+        driver.quit();
         return ResponseEntity.ok(new String("END GAME"));
     }
 
@@ -338,6 +342,18 @@ public class Class01 {
         }
         System.out.println(chosenFile);
         return chosenFile;
+    }
+}
+
+class test {
+    public static void main(String[] args) throws AWTException, InterruptedException {
+        while (true) {
+            Thread.sleep(2000);
+            Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+            int x = (int) mousePosition.getX();
+            int y = (int) mousePosition.getY();
+            System.out.println("Current mouse position: (" + x + ", " + y + ")");
+        }
     }
 }
 
