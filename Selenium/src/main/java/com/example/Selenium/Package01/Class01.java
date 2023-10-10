@@ -52,7 +52,7 @@ public class Class01 {
     private static List<WebElement> element_solve;
 
     protected static String user_name = "test02";
-    protected static String user_password = "IUtrangmaimai02";
+    protected static String user_password = "password123";
 
     private static String string;
 
