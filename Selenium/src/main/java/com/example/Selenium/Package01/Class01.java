@@ -1,5 +1,3 @@
-package com.example.Selenium.Package01;
-
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.openqa.selenium.*;
@@ -32,7 +30,7 @@ import java.util.List;
 @RequestMapping("/api/web")
 public class Class01 {
 
-     private static String URL_WEBSITE = "https://ttsfree.com/vn";
+    private static String URL_WEBSITE = "https://ttsfree.com/vn";
     private static String male_voice = "//*[@id=\"voice_name_bin\"]/div[2]/label";
     private static String female_voice = "//*[@id=\"voice_name_bin\"]/div[1]/label";
     private static File chosenFile = null;
@@ -51,16 +49,202 @@ public class Class01 {
 
     private static List<WebElement> element_solve;
 
-    protected static String user_name = "test02";
-    protected static String user_password = "password123";
+    protected static String user_name = "nam02test";
+    protected static String user_password = "IUtrangmaimai02";
 
     private static String string;
 
+    private static WebDriverWait wait;
     /**
      * cd C:\Program Files\Google\Chrome\Application
      * chrome.exe --remote-debugging-port=9222 --user-data-dir="F:\CongViecHocTap\ChromeData"
      * chrome://settings/content/popups
      */
+
+    @GetMapping("/testElenmentInputCaptcha")
+    public ResponseEntity<?> testElenmentInputCaptcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("debuggerAddress", "localhost:9222");
+        options.addArguments("disable-infobars");
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-extensions");
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+
+        js = (JavascriptExecutor) driver;
+
+        Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+        js.executeScript("arguments[0].scrollIntoView();", Element);
+
+        driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
+
+        Thread.sleep(5000);
+        js = (JavascriptExecutor) driver;
+        Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+        js.executeScript("arguments[0].scrollIntoView();", Element);
+
+        js = (JavascriptExecutor) driver;
+
+        Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+        js.executeScript("arguments[0].scrollIntoView();", Element);
+
+        return ResponseEntity.ok(new String("END GAME"));
+
+    }
+
+    @GetMapping("/testSwap")
+    public ResponseEntity<?> testSwap(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("debuggerAddress", "localhost:9222");
+        options.addArguments("disable-infobars");
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-extensions");
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+
+        driver.findElement(By.xpath("//*[@id=\"input_text\"]")).sendKeys("test");
+
+        ((JavascriptExecutor) driver).executeScript("window.open('https://imagevietnam.vn/','_blank');");
+        Thread.sleep(3000);
+        windowHandle = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(windowHandle);
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"header_fixed_2\"]/div[2]/ul/li[1]/a/span")).click();
+        Thread.sleep(1000);
+
+
+        ((JavascriptExecutor) driver).executeScript("window.open('http://tratu.soha.vn/dict/en_vn/Image','_blank');");
+        Thread.sleep(3000);
+        windowHandle = driver.getWindowHandles().toArray()[2].toString();
+        driver.switchTo().window(windowHandle);
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"header\"]/div[1]/a")).click();
+        Thread.sleep(1000);
+
+        driver.close();
+
+        Thread.sleep(5000);
+        windowHandle = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(windowHandle);
+        driver.close();
+
+        Thread.sleep(5000);
+        windowHandle = driver.getWindowHandles().toArray()[0].toString();
+        driver.switchTo().window(windowHandle);
+        driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
+
+
+        return ResponseEntity.ok(new String("END GAME"));
+
+    }
+
+    @GetMapping("/CaptchaMonster_ImageToText")
+    public ResponseEntity<?> captChaMonster_ImageToText_API(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+        System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("debuggerAddress", "localhost:9222");
+        options.addArguments("disable-infobars");
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-extensions");
+
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+
+        js = (JavascriptExecutor) driver;
+
+        Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+        js.executeScript("arguments[0].scrollIntoView();", Element);
+
+
+        if (driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/div")).isDisplayed()) {
+            System.out.println("Captcha displayed");
+
+            Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+            js.executeScript("arguments[0].scrollIntoView();", Element);
+            Thread.sleep(3000);
+
+            Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
+            js.executeScript("arguments[0].scrollIntoView();", Element);
+            Thread.sleep(3000);
+
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            try {
+                BufferedImage fullScreen = ImageIO.read(screenshot);
+                BufferedImage capture = fullScreen.getSubimage(892, 615, 190, 55);
+                ImageIO.write(capture, "png", new File("F:\\CongViecHocTap\\Captcha\\Captcha.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ((JavascriptExecutor) driver).executeScript("window.open('https://capmonster.cloud/en/Demo/','_blank');");
+            windowHandle = driver.getWindowHandles().toArray()[1].toString();
+            driver.switchTo().window(windowHandle);
+            driver.findElement(By.xpath("//*[@id=\"uploadImageInput\"]")).sendKeys("F:\\CongViecHocTap\\Captcha\\Captcha.png"); //copy input tag
+            Thread.sleep(10000);
+
+            WebElement image = driver.findElement(By.id("resultImage"));
+            String imageUrl = image.getAttribute("src");
+            String base64Image = imageUrl.split(",")[1];
+            byte[] decodedBytes = Base64.getDecoder().decode(base64Image);
+            FileOutputStream fos = new FileOutputStream(new File("F:\\CongViecHocTap\\CaptchaMonster\\CaptchaMonster.jpg"));
+            fos.write(decodedBytes);
+            fos.close();
+
+            Thread.sleep(2000);
+
+            ((JavascriptExecutor) driver).executeScript("window.open('https://www.imagetotext.info/','_blank');");
+            windowHandle = driver.getWindowHandles().toArray()[2].toString();
+            driver.switchTo().window(windowHandle);
+
+            Thread.sleep(2000);
+            Element = driver.findElement(By.xpath("/html/body/section[1]/div/div/div[1]/div[1]/div[1]/div[1]/div/label[2]/span"));
+            js.executeScript("arguments[0].scrollIntoView();", Element);
+
+            Thread.sleep(2000);
+            driver.findElement(By.xpath("//*[@id=\"file\"]")).sendKeys("F:\\CongViecHocTap\\CaptchaMonster\\CaptchaMonster.jpg");
+            Thread.sleep(2000);
+
+            driver.findElement(By.id("jsShadowRoot")).click();
+            Thread.sleep(10000);
+
+            String string = String.valueOf(driver.findElement(By.id("imagetotext_result0")).getAttribute("value"));
+            string = string.replaceAll("\\s+", ""); // Loại bỏ khoảng trắng
+            string = string.replaceAll("[^a-zA-Z0-9]", ""); // Loại bỏ các kí tự không phải là chữ cái hoặc số
+            System.out.println(string); // Kết quả: HelloWorld
+            int count = string.length();
+            System.out.println("Số kí tự trong chuỗi là: " + count);
+            driver.close();
+
+            Thread.sleep(2000);
+            windowHandle = driver.getWindowHandles().toArray()[1].toString();
+            driver.switchTo().window(windowHandle);
+            driver.close();
+
+            Thread.sleep(2000);
+            windowHandle = driver.getWindowHandles().toArray()[0].toString();
+            driver.switchTo().window(windowHandle);
+            Thread.sleep(2000);
+            driver.findElement(By.xpath("//*[@id=\"captcha_input\"]")).clear();
+            Thread.sleep(2000);
+            driver.findElement(By.xpath("//*[@id=\"captcha_input\"]")).sendKeys(string);
+            Thread.sleep(2000);
+            driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/div/a[2]")).click();
+            Thread.sleep(2000);
+            driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/div/a[1]/i")).click();
+        }
+        return ResponseEntity.ok(new String("END GAME"));
+    }
+
 
     @GetMapping("/ttsfree_captcha")
     public ResponseEntity<?> ttsfree_captcha(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
@@ -72,11 +256,24 @@ public class Class01 {
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation")); // disable chrome running as automation
 
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+        driver.manage().window().maximize();        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+            System.out.println("new ad displays after captcha image is not displaed");
+            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+        }
+        checkElemenetESC(10);
+        Thread.sleep(5000);
+        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+            System.out.println("new ad displays after captcha image is not displaed");
+            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+        }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         driver.get(URL_WEBSITE);
+
+
 
         element_solve = driver.findElements(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]"));
         if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
@@ -93,7 +290,7 @@ public class Class01 {
                 }
                 driver.switchTo().defaultContent(); // return default content
             }
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
             driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
             driver.findElement(By.xpath("//input[@name='txt_password']")).sendKeys(user_password);
             driver.findElement(By.xpath("//ins[@class='iCheck-helper']")).click();
@@ -119,7 +316,7 @@ public class Class01 {
                 }
             }
 
-            checkElenmentESC_2(3);
+            checkElemenetESC(3);
 
             js = (JavascriptExecutor) driver;
             Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
@@ -137,21 +334,21 @@ public class Class01 {
                 driver.findElement(By.xpath("(//img[@title='Ad.Plus Advertising'])[1]")).click();
             }
 
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
 
             driver.findElement(By.xpath("//*[@id=\"input_text\"]")).clear();
             driver.findElement(By.xpath("//*[@id=\"input_text\"]")).sendKeys(text);
 
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
 
             if (driver.findElement(By.xpath("//*[@id=\"select2-select_lang_bin-container\"]")).getText().equals(xpath_vietnameseToText)) {
             } else {
                 driver.findElement(By.xpath("//*[@id=\"select2-select_lang_bin-container\"]")).click();
-                waitForElementToSendKeys(10, "/html/body/span/span/span[1]/input", Vietnamese);
+                driver.findElement(By.xpath("/html/body/span/span/span[1]/input")).sendKeys(Vietnamese);
                 driver.findElement(By.xpath("/html/body/span/span/span[1]/input")).sendKeys(Keys.ENTER);
             }
 
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
 
             // new ad displays 1
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
@@ -165,7 +362,7 @@ public class Class01 {
             } else {
                 waitForElementToClick(10, female_voice);
             }
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
 
             driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
 
@@ -173,9 +370,19 @@ public class Class01 {
             Element = driver.findElement(By.xpath("//*[@id=\"input_text\"]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
 
-            checkElenmentESC_2(1);
+            checkElemenetESC(1);
 
-            element_solve = driver.findElements(By.id("captcha_image"));
+
+
+            wait = new WebDriverWait(driver, Duration.ofSeconds(9));
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("captcha_image")));
+                element_solve = driver.findElements(By.id("captcha_image"));
+            } catch (Exception exception) {
+                System.out.println("captcha not displays 0 ");
+            }
+
+            System.out.println("ok1");
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
                 while (true) {
                     System.out.println("Captcha displayed");
@@ -198,7 +405,7 @@ public class Class01 {
                     driver.switchTo().window(windowHandle);
                     driver.findElement(By.xpath("//*[@id=\"uploadImageInput\"]")).sendKeys("F:\\CongViecHocTap\\Captcha\\Captcha.png"); //copy input tag
 
-                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+                     wait = new WebDriverWait(driver, Duration.ofSeconds(20));
                     try {
                         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("resultImage")));
                         WebElement image = driver.findElement(By.id("resultImage"));
@@ -263,6 +470,7 @@ public class Class01 {
             } else {
                 System.out.println("Captcha image is not displayed");
             }
+            System.out.println("ok2");
 
             // new ad displays 2
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
@@ -271,7 +479,38 @@ public class Class01 {
                 driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
             }
 
-            waitForElementUnstable(5, 30, "//*[@id=\"progessResults\"]/div[2]/center[1]/div/a");
+            // download
+            checkElemenetESC(4);
+
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("new ad displays after captcha image is not displaed");
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+            }
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            try {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a")));
+                element_solve = driver.findElements(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a"));
+                if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                    driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a")).click();
+                }
+            } catch (Exception exception) {
+                System.out.println("download button not displays");
+            }
+
+            element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("AD displays");
+                WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+                driver.switchTo().frame(frame1);
+                List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+                if (list.size() > 0) {
+                    driver.findElement(By.id("dismiss-button")).click();
+                }
+                driver.switchTo().defaultContent(); // return default content
+            }
+
             getLastModified("E:\\Downloads\\");
             Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
         }
@@ -279,8 +518,8 @@ public class Class01 {
         return ResponseEntity.ok(new String("END GAME"));
     }
 
-    public void checkElenmentESC_2(int seconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+    public void checkElemenetESC(int seconds) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
             element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
@@ -293,36 +532,36 @@ public class Class01 {
     }
 
 
-    public void waitForElementToSendKeys(int seconds, String waitConditionLocator, String text) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(waitConditionLocator))).sendKeys(text);
-    }
-
-    public void waitForElementUnstable(int timeOut, int pollingEvery, String xpath) throws InterruptedException, IOException {
-
-        checkElenmentESC_2(4);
-
-        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
-        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-            System.out.println("new ad displays after captcha image is not displaed");
-            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
-        }
-
-        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
-
-        element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
-        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-            System.out.println("AD displays");
-            WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
-            driver.switchTo().frame(frame1);
-            List<WebElement> list = driver.findElements(By.id("dismiss-button"));
-            if (list.size() > 0) {
-                driver.findElement(By.id("dismiss-button")).click();
-            }
-            driver.switchTo().defaultContent(); // return default content
-        }
-    }
+//    public void waitForElementToSendKeys(int seconds, String waitConditionLocator, String text) {
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(waitConditionLocator))).sendKeys(text);
+//    }
+//
+//    public void waitForElementUnstable(int timeOut, int pollingEvery, String xpath) throws InterruptedException, IOException {
+//
+//        checkElemenetESC(4);
+//
+//        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+//        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+//            System.out.println("new ad displays after captcha image is not displaed");
+//            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+//        }
+//
+//        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(timeOut)).pollingEvery(Duration.ofSeconds(pollingEvery)).ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+//        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath))).click();
+//
+//        element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+//        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+//            System.out.println("AD displays");
+//            WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+//            driver.switchTo().frame(frame1);
+//            List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+//            if (list.size() > 0) {
+//                driver.findElement(By.id("dismiss-button")).click();
+//            }
+//            driver.switchTo().defaultContent(); // return default content
+//        }
+//    }
 
     public void waitForElementToClick(int seconds, String waitConditionLocator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
