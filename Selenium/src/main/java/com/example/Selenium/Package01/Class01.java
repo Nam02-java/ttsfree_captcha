@@ -535,10 +535,22 @@ public class Class01 {
         try {
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             System.out.println("wait update display 1");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+            }
+        } catch (Exception exception) {
+            System.out.println("AD UPDATE NOT DISPLAYS 1");
+        }
+
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("AD display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
             element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("AD update display 1");
+                System.out.println("AD 1 displays");
                 WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
                 driver.switchTo().frame(frame1);
                 List<WebElement> list = driver.findElements(By.id("dismiss-button"));
@@ -548,30 +560,42 @@ public class Class01 {
                 driver.switchTo().defaultContent(); // return default content
             }
         } catch (Exception exception) {
-            System.out.println("AD UPDATE NOT DISPLAYS 1");
+            System.out.println("AD 1  NOT DISPLAYS 1");
         }
 
         driver.findElement(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]")).click(); // click login
 
         try {
-            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            System.out.println("wait ESC 2");
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("wait ESC 1");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
             element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
                 driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
             }
         } catch (Exception exception) {
-            System.out.println("ESC not displays 2");
+            System.out.println("ESC not displays 1");
         }
 
         try {
-            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            System.out.println("wait update display 2");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("wait update display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+            }
+        } catch (Exception exception) {
+            System.out.println("AD UPDATE NOT DISPLAYS 1");
+        }
+
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("AD display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
             element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("AD update display 2");
+                System.out.println("AD 1 displays");
                 WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
                 driver.switchTo().frame(frame1);
                 List<WebElement> list = driver.findElements(By.id("dismiss-button"));
@@ -581,7 +605,7 @@ public class Class01 {
                 driver.switchTo().defaultContent(); // return default content
             }
         } catch (Exception exception) {
-            System.out.println("AD UPDATE NOT DISPLAYS 2");
+            System.out.println("AD 1  NOT DISPLAYS 1");
         }
 
         driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
@@ -616,6 +640,7 @@ public class Class01 {
         } catch (Exception exception) {
             System.out.println("ESC not displays");
         }
+
 
         js = (JavascriptExecutor) driver; // work
 
@@ -662,10 +687,21 @@ public class Class01 {
         driver.findElement(By.xpath("//*[@id=\"frm_tts\"]/div[2]/div[2]/div[1]/a")).click();
 
         // new ad displays 2
-        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
-        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-            System.out.println("new ad displays after captcha image is not displaed");
-            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+//        element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+//        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+//            driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+//        }
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("wait update display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
+            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("new ad displays after captcha image is not displaed");
+                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+            }
+        } catch (Exception exception) {
+            System.out.println("AD UPDATE NOT DISPLAYS 1");
         }
 
         try {
@@ -794,21 +830,27 @@ public class Class01 {
             }
         }
 
-        element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
-        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-            System.out.println("AD displays");
-            WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
-            driver.switchTo().frame(frame1);
-            List<WebElement> list = driver.findElements(By.id("dismiss-button"));
-            if (list.size() > 0) {
-                driver.findElement(By.id("dismiss-button")).click();
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+            System.out.println("AD display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
+            element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("AD 1 displays");
+                WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+                driver.switchTo().frame(frame1);
+                List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+                if (list.size() > 0) {
+                    driver.findElement(By.id("dismiss-button")).click();
+                }
+                driver.switchTo().defaultContent(); // return default content
             }
-            driver.switchTo().defaultContent(); // return default content
+        } catch (Exception exception) {
+            System.out.println("AD 1  NOT DISPLAYS 1");
         }
 
         // getLastModified("E:\\Downloads\\");
 
-        Thread.sleep(2000);
         File directory_download = new File("E:\\Downloads\\");
         File[] file_download = directory_download.listFiles(File::isFile);
 
@@ -827,7 +869,7 @@ public class Class01 {
 
 
         Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
-        driver.close();
+        //driver.close();
         return ResponseEntity.ok(new String("END GAME"));
     }
 
