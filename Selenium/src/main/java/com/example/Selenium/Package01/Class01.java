@@ -1,3 +1,4 @@
+package com.example.Selenium.Package01;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -485,7 +486,9 @@ public class Class01 {
     }
 
     @GetMapping("/ttsfree_captcha_noForLoop")
-    public ResponseEntity<?> ttsfree_captcha_noForLoop(@RequestParam Map<String, String> params) throws InterruptedException, IOException, AWTException {
+    public ResponseEntity<?> ttsfree_captcha_noForLoop(@RequestParam Map<String, String> params) throws InterruptedException, IOException {
+        //div[@class='swal2-container swal2-center swal2-backdrop-show']
+        //span[@class='ns-kcq03-e-16']
         WebDriverWait wait;
         List<WebElement> element_solve;
         String URL_WEBSITE = "https://ttsfree.com/vn";
@@ -493,15 +496,14 @@ public class Class01 {
         String user_password = "IUtrangmaimai02";
         String male_voice = "//*[@id=\"voice_name_bin\"]/div[2]/label";
         String female_voice = "//*[@id=\"voice_name_bin\"]/div[1]/label";
-      //  File chosenFile = null;
         String fileName;
         String Vietnamese = "138";
         String xpath_vietnameseToText = "138. Vietnamese (Vietnam) - VN";
         JavascriptExecutor js;
-        WebElement Element;
         WebElement Element_inputText;
         String windowHandle;
         String string;
+        File chosenFile = null;
 
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         System.setProperty("webdriver.chrome.driver", "F:\\CongViecHocTap\\ChromeDriver\\chromedriver-win64\\chromedriver.exe");
@@ -518,13 +520,25 @@ public class Class01 {
 
         driver.get(URL_WEBSITE);
 
-        element_solve = driver.findElements(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]"));
-        if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-            System.out.println("login displayed");
-            driver.findElement(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]")).click();
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("wait ESC 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
+            element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
+            }
+        } catch (Exception exception) {
+            System.out.println("ESC not displays 1");
+        }
+
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            System.out.println("wait update display 1");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
             element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("AD displays");
+                System.out.println("AD update display 1");
                 WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
                 driver.switchTo().frame(frame1);
                 List<WebElement> list = driver.findElements(By.id("dismiss-button"));
@@ -533,29 +547,53 @@ public class Class01 {
                 }
                 driver.switchTo().defaultContent(); // return default content
             }
-
-            wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-            try {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
-                element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
-                if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                    driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
-                }
-            } catch (Exception exception) {
-                System.out.println("ESC not displays");
-            }
-
-            driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
-            driver.findElement(By.xpath("//input[@name='txt_password']")).sendKeys(user_password);
-            driver.findElement(By.xpath("//ins[@class='iCheck-helper']")).click();
-            driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
+        } catch (Exception exception) {
+            System.out.println("AD UPDATE NOT DISPLAYS 1");
         }
+
+        driver.findElement(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]")).click(); // click login
+
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            System.out.println("wait ESC 2");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
+            element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
+            }
+        } catch (Exception exception) {
+            System.out.println("ESC not displays 2");
+        }
+
+        try {
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            System.out.println("wait update display 2");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
+            element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("AD update display 2");
+                WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
+                driver.switchTo().frame(frame1);
+                List<WebElement> list = driver.findElements(By.id("dismiss-button"));
+                if (list.size() > 0) {
+                    driver.findElement(By.id("dismiss-button")).click();
+                }
+                driver.switchTo().defaultContent(); // return default content
+            }
+        } catch (Exception exception) {
+            System.out.println("AD UPDATE NOT DISPLAYS 2");
+        }
+
+        driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
+        driver.findElement(By.xpath("//input[@name='txt_password']")).sendKeys(user_password);
+        driver.findElement(By.xpath("//ins[@class='iCheck-helper']")).click();
+        driver.findElement(By.xpath("//input[@id='btnLogin']")).click();
 
         System.out.println("---------------------------------------------------------------------------------------");
         String text = params.get("Text");
         String voice = params.get("Voice");
         fileName = params.get("FileName");
-        System.out.println(fileName);
+        System.out.println(text + " " + voice + " " + fileName);
 
         File directory = new File("F:\\CongViecHocTap\\TestDowloadMP3\\");
         File[] files = directory.listFiles(File::isFile);
@@ -631,7 +669,7 @@ public class Class01 {
         }
 
         try {
-            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a")));
             element_solve = driver.findElements(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
@@ -647,6 +685,11 @@ public class Class01 {
                     System.out.println("ESC not displays");
                 }
 
+                /**
+                 * new update 18/10 at 10:43AM
+                 */
+                wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a")));
                 js.executeScript("arguments[0].scrollIntoView();", Element_inputText);
                 driver.findElement(By.xpath("//*[@id=\"progessResults\"]/div[2]/center[1]/div/a")).click();
             }
@@ -763,7 +806,26 @@ public class Class01 {
             driver.switchTo().defaultContent(); // return default content
         }
 
-        getLastModified("E:\\Downloads\\");
+        // getLastModified("E:\\Downloads\\");
+
+        Thread.sleep(2000);
+        File directory_download = new File("E:\\Downloads\\");
+        File[] file_download = directory_download.listFiles(File::isFile);
+
+        long lastModifiedTime = Long.MIN_VALUE;
+        chosenFile = null;
+
+        if (file_download != null) {
+            for (File file : file_download) {
+                if (file.lastModified() > lastModifiedTime) {
+                    chosenFile = file;
+                    lastModifiedTime = file.lastModified();
+                }
+            }
+        }
+        System.out.println(chosenFile);
+
+
         Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
         driver.close();
         return ResponseEntity.ok(new String("END GAME"));
@@ -804,7 +866,7 @@ public class Class01 {
     }
 
     public static File getLastModified(String directoryFilePath) throws InterruptedException {
-     //   File chosenFile = null;
+        //   File chosenFile = null;
 
         Thread.sleep(2000);
         File directory = new File(directoryFilePath);
@@ -823,5 +885,17 @@ public class Class01 {
         }
         System.out.println(chosenFile);
         return chosenFile;
+    }
+
+    @GetMapping("/todo")
+    public String aaa() {
+        System.out.println("hihihi");
+        return "hihihihi";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        System.out.println("ok");
     }
 }
