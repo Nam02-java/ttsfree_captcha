@@ -63,7 +63,7 @@ public class Class01 {
         List<WebElement> element_solve;
         String URL_WEBSITE = "https://ttsfree.com/vn";
         String user_name = "nam02test";
-        String user_password = "password123";
+        String user_password = "IUtrangmaimai02";
         String male_voice = "//*[@id=\"voice_name_bin\"]/div[2]/label";
         String female_voice = "//*[@id=\"voice_name_bin\"]/div[1]/label";
         String fileName;
@@ -92,25 +92,27 @@ public class Class01 {
 
         try { // nút ESC
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            System.out.println("wait ESC 1");
+            System.out.println("Xem xét nút ESC lần 1");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
             element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("Nút ESC hiển thị lần 1");
                 driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
             }
         } catch (Exception exception) {
-            System.out.println("ESC not displays 1");
+            System.out.println("nút ESC không hiển thị lần 1");
         }
 
         driver.findElement(By.xpath("(//a[@class='link mr-20 color-heading ml-10'])[1]")).click(); // click login
+//ins[contains(@style,'width: 100vw')]
 
         try { // quảng cáo host 8 9
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            System.out.println("Quang cao host 8 9 dang xem xet 2");
+            System.out.println("Xem xét quảng cáo của host lần 1");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
             element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("Quang cao host 8 9 hien thi 2");
+                System.out.println("Quảng của host có hiển thị lần 1");
                 WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
                 driver.switchTo().frame(frame1);
                 List<WebElement> list = driver.findElements(By.xpath("//div[@aria-label='Đóng quảng cáo']"));
@@ -120,7 +122,7 @@ public class Class01 {
                 driver.switchTo().defaultContent(); // return default content
             }
         } catch (Exception exception) {
-            System.out.println("Khong hien quang cao host 8 9 2");
+            System.out.println("Không hiển thị quảng cáo của host lần 1");
         }
 
         driver.findElement(By.xpath("//input[@name='txt_username']")).sendKeys(user_name);
@@ -141,33 +143,34 @@ public class Class01 {
             String target = name.copyValueOf(".mp3".toCharArray());
             name = name.replace(target, "");
             if (name.equals(fileName)) {
-                return ResponseEntity.ok(new String("The file name is duplicate , please change the name"));
+                System.out.println("The file name is duplicate , please change the file name");
+                return ResponseEntity.ok(new String("The file name is duplicate , please change the file name"));
             }
         }
-
         try { // nút ESC
             wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-            System.out.println("wait ESC 3");
+            System.out.println("Chờ nút ESC lần 2");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/div[1]/small")));
             element_solve = driver.findElements(By.xpath("/html/body/div[1]/div[1]/small"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("Nút ESC hiển thị lần 2");
                 driver.findElement(By.xpath("/html/body/div[1]/div[1]/small")).click();
-                System.out.println("click");
             }
         } catch (Exception exception) {
-            System.out.println("ESC not displays 3");
+            System.out.println("nút ESC không hiển thị lần 2");
         }
 
         try { //bàn tay quảng cáo
             wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-            System.out.println("xem xet ban tay quang cao 3");
+            System.out.println("Xem xét quảng cáo bàn tay lần 1");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                System.out.println("Bàn tay quảng cáo bàn tay có hiển thị lần 1");
                 driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
             }
         } catch (Exception exception) {
-            System.out.println("ko hien thi ban tay quang cao 3");
+            System.out.println("Không hiển thị bàn tay quảng cáo lần 1");
         }
 
         js = (JavascriptExecutor) driver; // work
@@ -216,15 +219,15 @@ public class Class01 {
 
         try { //bàn tay quảng cáo
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            System.out.println("xem xet ban tay quang cao 2");
+            System.out.println("Xem xét quảng cáo bàn tay lần 2");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
             element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("new ad displays after captcha image is not displaed");
+                System.out.println("Bàn tay quảng cáo bàn tay có hiển thị lần 2");
                 driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
             }
         } catch (Exception exception) {
-            System.out.println("ko hien thi ban tay quang cao 2");
+            System.out.println("Không hiển thị bàn tay quảng cáo lần 2");
         }
 
         try {
@@ -255,10 +258,18 @@ public class Class01 {
         } catch (Exception exception) {
             System.out.println("download button not displays");
 
-            element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
-            if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("new ad displays after captcha image is not displaed");
-                driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+            try { //bàn tay quảng cáo
+                wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+                System.out.println("Xem xét quảng cáo bàn tay lần 3");
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-modal='true']")));
+                element_solve = driver.findElements(By.xpath("//div[@aria-modal='true']"));
+                if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
+                    System.out.println("new ad displays after captcha image is not displaed");
+                    System.out.println("Bàn tay quảng cáo bàn tay có hiển thị lần 3");
+                    driver.findElement(By.xpath("//button[@aria-label='Close this dialog']")).click();
+                }
+            } catch (Exception e) {
+                System.out.println("Không hiển thị bàn tay quảng cáo lần 3");
             }
 
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -355,11 +366,11 @@ public class Class01 {
 
         try { // quảng cáo host 8 9
             wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            System.out.println("Quang cao host 8 9 dang xem xet 2");
+            System.out.println("Xem xét quảng cáo của host lần 2");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@style,'width: 100vw')]")));
             element_solve = driver.findElements(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
             if (element_solve.size() > 0 && element_solve.get(0).isDisplayed()) {
-                System.out.println("Quang cao host 8 9 hien thi 2");
+                System.out.println("Quảng của host có hiển thị lần 2");
                 WebElement frame1 = driver.findElement(By.xpath("//iframe[contains(@style,'width: 100vw')]"));
                 driver.switchTo().frame(frame1);
                 List<WebElement> list = driver.findElements(By.xpath("//div[@aria-label='Đóng quảng cáo']"));
@@ -369,8 +380,10 @@ public class Class01 {
                 driver.switchTo().defaultContent(); // return default content
             }
         } catch (Exception exception) {
-            System.out.println("Khong hien quang cao host 8 9 2");
+            System.out.println("Không hiển thị quảng cáo của host lần 2");
         }
+
+        // getLastModified("E:\\Downloads\\");
 
         File directory_download = new File("E:\\Downloads\\");
         File[] file_download = directory_download.listFiles(File::isFile);
@@ -388,8 +401,8 @@ public class Class01 {
         }
         System.out.println(chosenFile);
 
+
         Files.move(Paths.get(String.valueOf(chosenFile)), Paths.get("F:\\CongViecHocTap\\TestDowloadMP3\\" + fileName + ".mp3"), StandardCopyOption.REPLACE_EXISTING);
         driver.close();
         return ResponseEntity.ok(new String("END GAME"));
     }
-}
